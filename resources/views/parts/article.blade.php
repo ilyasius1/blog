@@ -1,10 +1,10 @@
 <div class="boxed  push-down-45">
     <div class="meta">
-        @isset($art['img'])
-        <img class="wp-post-image" src="{{ $art['img'] }}" alt="Blog image" width="748" height="324">
+        @isset($article['img'])
+        <img class="wp-post-image" src="{{ $article['img'] }}" alt="Blog image" width="748" height="324">
         @endisset
-            
-        
+
+
         <div class="row">
             <div class="col-xs-12  col-sm-10  col-sm-offset-1">
                 <div class="meta__container--without-image">
@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-4">
                             <div class="meta__comments">
-                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; 10 мая 2015 г.</span>
+                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; {{ dateRu('d F Y', $article['created'], true) }} г.</span>
                             </div>
                         </div>
                     </div>
@@ -28,20 +28,20 @@
         <div class="col-xs-10  col-xs-offset-1">
             <div class="post-content--front-page">
                 <h2 class="front-page-title">
-                    <a href="article/{{ $art['id'] }}">{{ $art['title'] }}</a>
+                    <a href="article/{{ $article['id'] }}">{{ $article['title'] }}</a>
                 </h2>
-                <h3>{{ $art['subtitle'] }}</h3>
+                <h3>{{ $article['subtitle'] }}</h3>
                 <p>
-                    {{ $art['content'] }}
+                    {{ $article['content'] }}
                     <!--Высшая арифметика, исключая очевидный случай, позитивно соответствует стремящийся ротор векторного поля, как и предполагалось. Длина вектора вырождена. Постоянная величина транслирует коллинеарный детерминант. Теорема, очевидно, развивает комплексный полином. Матожидание, в первом приближении, традиционно проецирует аксиоматичный график функции.-->
                 </p>
             </div>
-            <a href="article/{{ $art['id'] }}">
+            <a href="article/{{ $article['id'] }}">
                 <div class="read-more">
                     Читать далее <span class="glyphicon glyphicon-chevron-right"></span>
                     <div class="comment-icon-counter">
                         <span class="glyphicon glyphicon-comment comment-icon"></span>
-                        <span class="comment-counter">10</span>
+                        <span class="comment-counter">{{ count($article['comments']) }}</span>
                     </div>
                 </div>
             </a>

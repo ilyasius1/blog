@@ -17,3 +17,19 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+Artisan::command('time1', function () {
+    echo date('H:i:s d F Y');
+})->describe('Display an inspiring quote');
+
+Artisan::command('timestamp', function () {
+    echo 'time ' . time();
+    echo 'mktimetime ' . date('H:i:s d-m-y', mktime(1,2,3,4,5,6));
+
+    //echo time('');
+})->describe('Display an inspiring quote');
+
+Artisan::command('lc', function () {
+    $str = 'Фывапып';
+    echo mb_strtolower($str);
+})->describe('Display an inspiring quote');

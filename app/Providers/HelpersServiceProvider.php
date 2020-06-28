@@ -23,6 +23,7 @@ class HelpersServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        require app_path('Includes/helpers.php');
         $this->app->bind(
             'app\Includes\Interfaces\MyMenuInterface',
             'MyMenu'

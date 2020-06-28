@@ -2,7 +2,7 @@
     <div class="container">
         <div class="logo pull-left">
             <a href="/">
-                <img src="assets/images/logo.png" alt="Logo" width="352" height="140">
+                <img src="/assets/images/logo.png" alt="Logo" width="352" height="140">
             </a>
         </div>
         <div class="navbar-header">

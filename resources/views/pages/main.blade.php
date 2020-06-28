@@ -1,9 +1,9 @@
 @extends('layouts.primary')
 
 @section('left-column')
-@foreach ($articles as $art)
+@foreach ($articles as $article)
 @include('parts.article')
-@endforeach    
+@endforeach
     <!--<div class="boxed  push-down-45">
         <div class="meta">
             <img class="wp-post-image" src="images/dummy-licensed/blog-image.jpg" alt="Blog image" width="748" height="324">

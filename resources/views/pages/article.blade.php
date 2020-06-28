@@ -3,14 +3,16 @@
 @section('center-column')
 <div class="boxed  push-down-60">
     <div class="meta">
-        <img class="wp-post-image" src="../assets/images/dummy-licensed/blog-image.jpg" alt="Blog image" width="1138" height="493">
+        @isset($article['img'])
+        <img class="wp-post-image" src="{{ $article['img'] /*?? "/assets/images/dummy-licensed/blog-image.jpg" */}}" alt="Blog image" width="1138" height="493">
+        @endisset
         <div class="row">
             <div class="col-xs-12  col-sm-10  col-sm-offset-1  col-md-8  col-md-offset-2">
                 <div class="meta__container--without-image">
                     <div class="row">
                         <div class="col-xs-12  col-sm-8">
                             <div class="meta__info">
-                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; 10 мая 2015</span>
+                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; {{ dateRu('d F Y', $article['created'], true) }} г.</span>
                             </div>
                         </div>
                         <div class="col-xs-12  col-sm-4">
@@ -29,7 +31,10 @@
     <div class="row">
         <div class="col-xs-10  col-xs-offset-1  col-md-8  col-md-offset-2  push-down-60">
 
-            <div class="post-content">
+            @include('.parts.article-content')
+
+
+            <!--<div class="post-content">
                 <h1>
                     <a href="#">{{ $article['title'] }}</a>
                 </h1>
@@ -56,13 +61,13 @@
                 <p>
                     Драм-машина, в первом приближении, имитирует тетрахорд. Пуантилизм, зародившийся в музыкальных микроформах начала ХХ столетия, нашел далекую историческую параллель в лице средневекового гокета, однако форма монотонно иллюстрирует гипнотический рифф. Явление культурологического порядка, в первом приближении, полифигурно продолжает паузный доминантсептаккорд.
                 </p>
-            </div>
+            </div>-->
 
             <div class="row">
                 <div class="col-xs-12  col-sm-6">
 
                     <div class="post-comments">
-                        <a class="btn  btn-primary" href="single-post-without-image.html">Комментарии (3)</a>
+                        <a class="btn  btn-primary" href="#comments">Комментарии ({{ count($article['comments']) }})</a>
                     </div>
 
                 </div>
@@ -94,7 +99,7 @@
                     <div class="comments">
                         <h6>Комментарии</h6>
                         <hr>
-                        @foreach ($article['comments'] as $item)
+                        @foreach ($article['comments'] as $comment)
                             @include('parts.comment')
                         @endforeach
                     </div>

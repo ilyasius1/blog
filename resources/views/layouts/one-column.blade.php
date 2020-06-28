@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         @section('center-column')
-        @endsection
+        @show
     </div>
 @endsection
 
