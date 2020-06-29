@@ -20,7 +20,7 @@
                 @show
             </div>
         </div>
-    </div>    
+    </div>
 @endsection
 
 @section('footer_links')

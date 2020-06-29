@@ -37,6 +37,12 @@
                     <li class="">
                         <a href="/contact" class="dropdown-toggle" data-toggle="dropdown">Обратная связь</a>
                     </li>
+                    <li class="">
+                        <a href="/register" class="dropdown-toggle" data-toggle="dropdown">Регистрация</a>
+                    </li>
+                    <li class="">
+                        <a href="/login" class="dropdown-toggle" data-toggle="dropdown">Вход</a>
+                    </li>
                 </ul>
             </div>
         </nav>

@@ -131,7 +131,12 @@ class ArticleController extends Controller
         ]
         ];
         $article=$articles[$id-1];
-        return view('pages.article', ['id' => $id, 'article' => $article]);
+        return view('layouts.secondary', [
+            'page' => 'pages.article',
+            'title' => 'Статья ' . $article['title'],
+            'id' => $id,
+            'article' => $article
+        ]);
     }
 
     public function addArticle()

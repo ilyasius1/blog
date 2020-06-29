@@ -6967,9 +6967,9 @@ h1,h2,h3,h4,h5 {
     position: static;
 }
 
-body {
-    background-image: url('http://xoo.me/template/15186/p17ughqr961kqld7510aj1ssq1hmd5-thumb.jpg');
-}
+/*body {*/
+/*    background-image: url('http://xoo.me/template/15186/p17ughqr961kqld7510aj1ssq1hmd5-thumb.jpg');*/
+/*}*/
 
 .comment .comment-avatar-image {
     width: 50px;
