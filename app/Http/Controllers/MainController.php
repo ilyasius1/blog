@@ -92,7 +92,7 @@ class MainController extends Controller
             ]
         ];
 
-    return view('pages.main', ['title' => 'Главная хрень', 'articles' => $articles]);
+    return view('pages.main', ['title' => 'Главная', 'articles' => $articles]);
     }
 
     public function about()
