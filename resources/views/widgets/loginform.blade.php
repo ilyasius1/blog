@@ -1,7 +1,7 @@
 <div class="widget-author widget-register-form boxed">
     <div class="row">
         <div class="col-xs-10  col-xs-offset-1">
-            <h2>Регистрация</h2>
+            <h2>Вход в систему</h2>
             <p>Поля, отмеченные звездочкой, являются <strong>обязательными</strong> для заполнения.</p>
 
             <form class="form-horizontal" method="POST" enctype="application/x-www-form-urlencoded" action="{{ route('registerPost') }}">
@@ -56,16 +56,16 @@
                                                         </div>
                                                     </div>
 
-                                                    @if ($errors->has('username'))
+                                                    @if ($errors->has('name'))
                                                         <div class="form-group has-error">
                                                             @else
                                                                 <div class="form-group">
                                                                     @endif
                                                                     <label class="col-sm-4 control-label">Имя или никнейм </label>
                                                                     <div class="col-sm-8">
-                                                                        <input type="text" class="form-control" name="username" placeholder="Иван Иванов" value="{{ old('username') }}">
-                                                                        @if ($errors->has('username'))
-                                                                            <span class="error-message">{{ $errors->first('username') }}</span>
+                                                                        <input type="text" class="form-control" name="name" placeholder="Иван Иванов" value="{{ old('name') }}">
+                                                                        @if ($errors->has('name'))
+                                                                            <span class="error-message">{{ $errors->first('name') }}</span>
                                                                         @endif
                                                                     </div>
                                                                 </div>

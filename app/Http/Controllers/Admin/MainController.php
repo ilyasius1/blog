@@ -31,7 +31,22 @@ class MainController extends Controller
                 'content' => 'Content 3'
             ]
         ];
-        return view('admin.pages.main',['title' => 'Главная админская хрень', 'articles' => $articles]);
+        return 'admin';//view('admin.pages.main',['title' => 'Главная админская хрень', 'articles' => $articles]);
     }
-    //
+
+
+    public function about()
+    {
+        return 'about admin';
+    }
+
+    public function editAbout()
+    {
+        return 'admin edit about';
+    }
+
+    public function editAboutPost()
+    {
+        return 'admin about edited';
+    }
 }

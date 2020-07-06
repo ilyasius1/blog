@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -98,6 +99,33 @@ class MainController extends Controller
     public function about()
     {
         return view('pages.about', ['title' => 'Обо мне']);
+    }
+
+    public function db()
+    {
+        $users = DB::table('users')
+            ->where('username','like', 'user%')
+            ->orderByDesc('userid')
+            ->get();
+
+        foreach ($users as $user)
+        {
+            echo 'User ID: ' . $user->userID . '<br>';
+            echo 'Username: ' . $user->userName . '<br>';
+            echo 'E-mail: ' . $user->email . '<br>';
+        }
+
+        $u = DB::table('users')
+            ->where('userid','=', '1')
+            ->orderByDesc('userid')
+            ->first(['userID', 'userName', 'email']);//get()[0];
+        echo 'User ID: ' . $u->userID . '<br>';
+        echo 'Username: ' . $u->userName . '<br>';
+        echo 'E-mail: ' . $u->email . '<br>';
+
+
+        debug($users);
+        return 'DB';
     }
 
 

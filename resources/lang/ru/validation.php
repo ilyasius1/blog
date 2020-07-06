@@ -77,45 +77,45 @@ return [
         'array' => 'The :attribute must not have more than :value items.',
     ],
     'max' => [
-        'numeric' => 'The :attribute may not be greater than :max.',
-        'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
-        'array' => 'The :attribute may not have more than :max items.',
+        'numeric' => ':attribute не может быть больше :max.',
+        'file' => ':attribute не может быть больше  :max килобайт.',
+        'string' => ':attribute не может быть больше :max символов.',
+        'array' => ':attribute не может содержать больше :max элементов.',
     ],
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
-        'numeric' => 'The :attribute must be at least :min.',
-        'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
-        'array' => 'The :attribute must have at least :min items.',
+        'numeric' => 'Поле :attribute должно быть не менее :min.',
+        'file' => 'Поле :attribute должно быть не менее :min килобайт(а).',
+        'string' => 'Поле :attribute должно содержать не менее :min символов.',
+        'array' => 'Поле :attribute должно содержать не менее :min элементов.',
     ],
     'not_in' => 'The selected :attribute is invalid.',
-    'not_regex' => 'The :attribute format is invalid.',
-    'numeric' => 'The :attribute must be a number.',
-    'password' => 'The password is incorrect.',
-    'present' => 'The :attribute field must be present.',
-    'regex' => 'The :attribute format is invalid.',
-    'required' => 'The :attribute field is required.',
-    'required_if' => 'The :attribute field is required when :other is :value.',
-    'required_unless' => 'The :attribute field is required unless :other is in :values.',
-    'required_with' => 'The :attribute field is required when :values is present.',
-    'required_with_all' => 'The :attribute field is required when :values are present.',
-    'required_without' => 'The :attribute field is required when :values is not present.',
-    'required_without_all' => 'The :attribute field is required when none of :values are present.',
-    'same' => 'The :attribute and :other must match.',
+    'not_regex' => 'Неверный формат поля :attribute.',
+    'numeric' => 'Поле :attribute должно быть числом.',
+    'password' => 'Неверный пароль.',
+    'present' => 'Поле :attribute должно присутствовать.',
+    'regex' => 'Неверный формат поля :attribute.',
+    'required' => 'Поле :attribute обязательно для заполнения.',
+    'required_if' => 'Поле :attribute обязательно для заполнения, когда :other равно :value.',
+    'required_unless' => 'Поле :attribute обязательно для заполнения, когда :other не равно :values.',
+    'required_with' => 'Поле :attribute обязательно для заполнения, когда :values указано.',
+    'required_with_all' => 'Поле :attribute обязательно для заполнения, когда :values указано.',
+    'required_without' => 'Поле :attribute обязательно для заполнения, когда :values не указано.',
+    'required_without_all' => 'Поле :attribute обязательно для заполнения, когда ни одно из :values не указано.',
+    'same' => ':attribute и :other должны совпадать.',
     'size' => [
-        'numeric' => 'The :attribute must be :size.',
-        'file' => 'The :attribute must be :size kilobytes.',
-        'string' => 'The :attribute must be :size characters.',
-        'array' => 'The :attribute must contain :size items.',
+        'numeric' => 'Поле :attribute должно быть равным :size.',
+        'file' => 'Размер файла в поле :attribute должен быть равен :size килобайт(а).',
+        'string' => 'Количество символов в поле :attribute должно быть равным :size.',
+        'array' => 'Количество элементов в поле :attribute должно быть равным :size.',
     ],
     'starts_with' => 'The :attribute must start with one of the following: :values.',
-    'string' => 'The :attribute must be a string.',
-    'timezone' => 'The :attribute must be a valid zone.',
-    'unique' => 'The :attribute has already been taken.',
-    'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute format is invalid.',
+    'string' => 'Поле :attribute должно быть строкой.',
+    'timezone' => 'The :attribute должно быть действительным часовым поясом.',
+    'unique' => 'Такое значение :attribute уже используется.',
+    'uploaded' => 'Загрузка поля :attribute не удалась.',
+    'url' => 'Поле :attribute имеет неверный формат.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
     /*
@@ -131,7 +131,7 @@ return [
 
     'custom' => [
         'is_confirmed' => [
-            'accepted' => 'Вы должны принять пользовательское соглашение'
+            'accepted' => 'Вы должны согласиться с условиями'
         ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
@@ -150,10 +150,12 @@ return [
     */
 
     'attributes' => [
-        'name' => '',
-        'email' => '',
-        'password' => '',
-        'passwordConfirmation' => '',
+        'name' => 'Имя или никнейм',
+        'email' => 'Адрес e-mail',
+        'password' => 'Пароль',
+        'password2' => 'Подтверждение пароля',
+        'phone' => 'Мобильный телефон',
+        'username' => 'Имя пользователя'
     ],
 
 ];

@@ -40,11 +40,17 @@ Route::group(['prefix' => 'article'],function(){
         ->name('DeleteArticle');
 });
 
+Route::get('/db', 'MainController@db')
+        ->name('site.main.db');
+
 Route::get('/register', 'AuthController@register')
 ->name('register');
 Route::post('/register', 'AuthController@registerPost')
 ->name('registerPost');
-Route::get('/login', 'AuthController@register')
+Route::get('/login', 'AuthController@login')
 ->name('login');
 Route::post('/login', 'AuthController@loginPost')
-->name('loginPOst');
+->name('loginPost');
+Route::get('/resetpassword', 'AuthController@resetPassword')
+    ->name('password.reset');
+
