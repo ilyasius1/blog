@@ -13,11 +13,10 @@ class CreateArticleTagsRelationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_tags_realations', function (Blueprint $table) {
+        Schema::create('article_tags', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
-            $table->id('articleTagID');
-//            $table->unsignedBigInteger('articleID')->index();
+//            $table->id('articleTagID');
             $table->foreignId('article')
                 ->references('articleID')
                 ->on('articles')
@@ -25,7 +24,6 @@ class CreateArticleTagsRelationsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-//            $table->unsignedBigInteger('tagID')->index();
             $table->foreignId('tag')
                 ->references('tagID')
                 ->on('tags')
@@ -43,6 +41,6 @@ class CreateArticleTagsRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_tags_realations');
+        Schema::dropIfExists('article_tags');
     }
 }

@@ -26,8 +26,13 @@ Route::get('/about', 'MainController@about')
 
 Route::group(['prefix' => 'article'],function(){
     Route::get('/{id}', 'ArticleController@showArticle')
-    ->where('id','[0-9]+')
-    ->name('ArticleGet');
+        ->where('id','[0-9]+')
+        ->name('ArticleGet');
+
+    /*Route::post('/addtag/{id}', 'ArticleController@addTag')
+        ->where('id','[0-9]+')
+        ->name('ArticleAddTag');
+*/
 
     Route::post('/add', 'ArticleController@addArticle')
         ->name('AddArticle');
@@ -39,6 +44,7 @@ Route::group(['prefix' => 'article'],function(){
         ->where('id','[0-9]+')
         ->name('DeleteArticle');
 });
+
 
 Route::get('/db', 'MainController@db')
         ->name('site.main.db');
@@ -53,4 +59,21 @@ Route::post('/login', 'AuthController@loginPost')
 ->name('loginPost');
 Route::get('/resetpassword', 'AuthController@resetPassword')
     ->name('password.reset');
+
+Route::get('/orm', 'MainController@orm');
+
+Route::get('/createEntity', 'MainController@createEntity');
+
+Route::post('addtag/', 'ArticleController@addTags')
+    ->where('id','[0-9]+')
+    ->name('ArticleAddTags');
+Route::post('rmtag/', 'ArticleController@removeTags')
+    ->where('id','[0-9]+')
+    ->name('ArticleRemoveTags');
+Route::post('settag/', 'ArticleController@setTags')
+    ->where('id','[0-9]+')
+    ->name('ArticleSetTags');
+Route::post('addcomment/', 'ArticleController@addComment')
+    ->where('id','[0-9]+')
+    ->name('ArticleAddComment');
 

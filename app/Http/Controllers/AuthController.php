@@ -40,6 +40,7 @@ class AuthController extends Controller
   "is_confirmed" => "on"
 ]
          */
+
         $input = $request->all();
         $id = DB::table('users')->insertGetId([
             'username' => $input['username'],

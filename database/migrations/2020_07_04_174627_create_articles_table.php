@@ -35,7 +35,8 @@ class CreateArticlesTable extends Migration
                 ->constrained()
                 ->onDelete('set default')
                 ->onUpdate('cascade');
-            $table->timestamp('created_at')->useCurrent();
+//            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));//useCurrent();
             $table->timestamp('modified_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
     }

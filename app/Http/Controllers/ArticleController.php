@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 use App\Models\Tag;
 use App\Models\Article;
 use App\Models\Section;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
     public function articleBySlug($slug)
     {
-        $article = new Article;
+        //$article = new Article;
         /*try {
             $article = Artcle::where('slug', $slug)
                 ->active()
@@ -31,13 +33,14 @@ class ArticleController extends Controller
 
     public function listByTag($tag)
     {
-        $article = new Article;
+        //$article = new Article;
         /*try {
             $article = Tag::where('name', $tag)
                 ->firstOrFail();
         } catch (\Exception $e) {
             abort(404);
         }*/
+
         return view('layouts.primary', [
             'article' =>   'pages.article',
             'title' => $article->title ?? '',
@@ -130,17 +133,65 @@ class ArticleController extends Controller
             'comments' =>[]
         ]
         ];
-        $article=$articles[$id-1];
+//        $article=$articles[$id-1];
+        $article = Article::withCount(['comments', 'tags'])->find($id);
+        dump('$article->comments:');
+        dump($article->comments_count);
+        dump('$article->tags:');
+        dump($article->tags_count);
+//        $tags = Tag::getByArticle($article);
+//        $tagIDs1 = DB::table('article_tags')
+//            ->select('tag')
+//            ->where('article', $article->articleID)
+//            ->get();
+//        foreach ($tagIDs1 as $i =>$t){
+//            $tagIDs1[$i] = ($t->tag);
+//        }
+//        $tags = Tag::find($tagIDs1);
+//        $tags = Tag::where('tagID', $tagIDs1->tag)
+//            ->get();
+//        $tags = Tag::find([$tagIDs1->tagID])
+//            ->whereColumn('tagID', 'article_tags_relations.tag');
+//            ->get();
+
+//        $comments = Comment::where('article', $article->articleID)->get();
+//        $art = DB::table('articles')->where('articleID', '=', '4')->get()[0];
+//        dump(date('Y',strtotime($art->created_at)));
+//        debug($art);
+        $tags = $article->tags;
+        $tag7 = $article->tags(7);
+        dump('$article->TAG7:');
+        dump($article->articleID);
+        dump('$article->articleID:');
+        dump($article->articleID);
+        dump('$article:');
+        dump($article);
+//        dump('$comments:');
+//        dump($comments);
+//        dump('count($comments):');
+//        dump(count($comments));
+//        dump('$tagIDs1:');
+//        dump($tagIDs1);
+        dump('$tags:');
+        dump($tags);
+        debug($article, $tags);
         return view('layouts.secondary', [
-            'page' => 'pages.article',
-            'title' => 'Статья ' . $article['title'],
-            'id' => $id,
-            'article' => $article
-        ]);
+            'page' => 'pages.addtag',
+            'article' => $article]);
+//                return 'ok';
+//        return view('layouts.secondary', [
+//            'page' => 'pages.article',
+//            'title' => 'Статья ' . $article->title,
+//            'id' => $article->articleID,
+//            'article' => $article,
+//            'comments' => $comments
+//        ]);
     }
 
     public function addArticle()
     {
+        $article = new Article();
+//        $article->title =
         return 'add'/*view('')*/;
     }
 
@@ -152,5 +203,46 @@ class ArticleController extends Controller
     public function deleteArticle()
     {
         return redirect()->route('Mainpage');
+    }
+
+    public function addTags(Request $request)
+    {
+//        $tagID = $request->all()['tag'];
+        $tagID = $request->input('tag');
+        $articleID = $request->input('article');
+        $article = Article::getById($articleID);
+        $article->addTag($tagID);
+        return redirect()->back();
+    }
+
+    public function removeTags(Request $request)
+    {
+        $tagID = $request->input('tag');
+        $articleID = $request->all()['article'];
+        $article = Article::getById($articleID);
+        $article->tags()->detach($tagID);
+        return redirect()->back();
+    }
+
+    public function setTags(Request $request)
+    {
+        $tagID = explode(',', $request->input('tag'));
+        $articleID = $request->all()['article'];
+        Article::getById($articleID)->tags()->sync($tagID);
+        return redirect()->back();
+    }
+
+    public function addComment(Request $request)
+    {
+        $articleID = $request->input('article');
+        $article = Article::find($articleID);
+        $userID = 1;
+        $text = $request->input('commenttext');
+        $comment = $article->comments()->create([
+            'author' => $userID,
+            '$article' => $articleID,
+            'text' => $text
+        ]);
+        return redirect()->back();
     }
 }

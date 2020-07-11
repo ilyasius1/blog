@@ -1,7 +1,7 @@
 <div class="boxed  push-down-60">
     <div class="meta">
-        @isset($article['img'])
-        <img class="wp-post-image" src="{{ $article['img'] }}" alt="Blog image" width="1138" height="493">
+        @isset($article->img)
+        <img class="wp-post-image" src="{{ $article->img }}" alt="Blog image" width="1138" height="493">
         @endisset
         <div class="row">
             <div class="col-xs-12  col-sm-10  col-sm-offset-1  col-md-8  col-md-offset-2">
@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-xs-12  col-sm-8">
                             <div class="meta__info">
-                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; {{ dateRu('d F Y', $article['created'], true) }} г.</span>
+                                <span class="meta__date"><span class="glyphicon glyphicon-calendar"></span> &nbsp; {{ dateRu($article->created_at) }} г.</span>
                             </div>
                         </div>
                         <div class="col-xs-12  col-sm-4">
@@ -35,7 +35,7 @@
                 <div class="col-xs-12  col-sm-6">
 
                     <div class="post-comments">
-                        <a class="btn  btn-primary" href="#comments">Комментарии ({{ count($article['comments']) }})</a>
+                        <a class="btn  btn-primary" href="#comments">Комментарии (счетчик)</a>
                     </div>
 
                 </div>
@@ -67,9 +67,9 @@
                     <div class="comments">
                         <h6>Комментарии</h6>
                         <hr>
-                        @foreach ($article['comments'] as $comment)
-                            @include('parts.comment')
-                        @endforeach
+{{--                        @foreach ($article['comments'] as $comment)--}}
+{{--                            @include('parts.comment')--}}
+{{--                        @endforeach--}}
                     </div>
                 </div>
             </div>
