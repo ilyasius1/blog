@@ -7,20 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    public $timestamps = false;
-    protected $primaryKey = 'TagID';
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function articles()
+    public function posts()
     {
-        return $this->belongsToMany('Article', 'article_tags', 'tag', 'article');
+        return $this->belongsToMany('Post', 'post_tag', 'tag_id', 'post_id');
     }
 
-    public static function getByArticle(Article $article)
+    public static function getByArticle(Post $post)
     {
-//        return $article->tags;
+//        return $post->tags;
     }
 
-    public function addTagToArticle(Article $article){
+    public function addTagToPost(Post $post){
 
     }
 }

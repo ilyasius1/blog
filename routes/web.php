@@ -23,27 +23,27 @@ Route::get('/', 'MainController@main')
 
 Route::get('/about', 'MainController@about')
     ->name('About');
-
-Route::group(['prefix' => 'article'],function(){
-    Route::get('/{id}', 'ArticleController@showArticle')
+/*
+Route::group(['prefix' => 'post'],function(){
+    Route::get('/{id}', 'PostController@showPost')
         ->where('id','[0-9]+')
-        ->name('ArticleGet');
+        ->name('PostGet');
 
-    /*Route::post('/addtag/{id}', 'ArticleController@addTag')
+    /*Route::post('/addtag/{id}', 'PostController@addTag')
         ->where('id','[0-9]+')
-        ->name('ArticleAddTag');
+        ->name('PostAddTag');
 */
+/*
+    Route::get('/add', 'PostController@addPost')
+        ->name('AddPost');
 
-    Route::post('/add', 'ArticleController@addArticle')
-        ->name('AddArticle');
-
-    Route::patch('/edit/{id}', 'ArticleController@editArticle')
+    Route::patch('/{id}/edit', 'PostController@editPost')
         ->where('id','[0-9]+')
-        ->name('EditArticle');
-    Route::delete('/delete/{id}', 'ArticleController@delete')
+        ->name('EditPost');
+    Route::delete('/{id}', 'PostController@delete')
         ->where('id','[0-9]+')
-        ->name('DeleteArticle');
-});
+        ->name('DeletePost');
+});*/
 
 
 Route::get('/db', 'MainController@db')
@@ -51,7 +51,7 @@ Route::get('/db', 'MainController@db')
 
 Route::get('/register', 'AuthController@register')
 ->name('register');
-Route::post('/register', 'AuthController@registerPost')
+Route::post('/register', 'AuthController@store')
 ->name('registerPost');
 Route::get('/login', 'AuthController@login')
 ->name('login');
@@ -64,16 +64,20 @@ Route::get('/orm', 'MainController@orm');
 
 Route::get('/createEntity', 'MainController@createEntity');
 
-Route::post('addtag/', 'ArticleController@addTags')
+Route::post('addtag/', 'PostController@addTags')
     ->where('id','[0-9]+')
-    ->name('ArticleAddTags');
-Route::post('rmtag/', 'ArticleController@removeTags')
+    ->name('PostAddTags');
+Route::post('rmtag/', 'PostController@removeTags')
     ->where('id','[0-9]+')
-    ->name('ArticleRemoveTags');
-Route::post('settag/', 'ArticleController@setTags')
+    ->name('PostRemoveTags');
+Route::post('settag/', 'PostController@setTags')
     ->where('id','[0-9]+')
-    ->name('ArticleSetTags');
-Route::post('addcomment/', 'ArticleController@addComment')
+    ->name('PostSetTags');
+Route::post('addcomment/', 'PostController@addComment')
     ->where('id','[0-9]+')
-    ->name('ArticleAddComment');
+    ->name('PostAddComment');
 
+Route::group(['namespace' => 'Blog'], function()
+{
+    Route::resource('post', 'PostController');
+});

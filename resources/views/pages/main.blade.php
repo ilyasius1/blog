@@ -1,8 +1,8 @@
 @extends('layouts.primary')
 
 @section('left-column')
-@foreach ($articles as $article)
-@include('parts.article')
+@foreach ($posts as $post)
+@include('parts.post')
 @endforeach
     <!--<div class="boxed  push-down-45">
         <div class="meta">

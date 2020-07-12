@@ -16,10 +16,10 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="collapse  navbar-collapse" id="readable-navbar-collapse">
                 <ul class="navigation">
-                    <li class="dropdown active">
+                    <li class="dropdown{{ (isset($activemenu) && $activemenu == 'main') ? ' active': '' }}">
                         <a href="/" class="dropdown-toggle" data-toggle="dropdown">Главная</a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown {{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Тест</a>
                         <ul class="navigation__dropdown">
                             <li><a href="#">Пункт 1</a></li>
@@ -28,19 +28,19 @@
                             <li><a href="#">Пункт 4</a></li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/elements" class="dropdown-toggle" data-toggle="dropdown">Верстка</a>
                     </li>
-                    <li class="">
+                    <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/about" class="dropdown-toggle" data-toggle="dropdown">Обо мне</a>
                     </li>
-                    <li class="">
+                    <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/contact" class="dropdown-toggle" data-toggle="dropdown">Обратная связь</a>
                     </li>
-                    <li class="">
+                    <li class="{{ (isset($activemenu) && $activemenu == 'register') ? ' active': '' }}">
                         <a href="/register" class="dropdown-toggle" data-toggle="dropdown">Регистрация</a>
                     </li>
-                    <li class="">
+                    <li class="{{ (isset($activemenu) && $activemenu == 'login') ? ' active': '' }}">
                         <a href="/login" class="dropdown-toggle" data-toggle="dropdown">Вход</a>
                     </li>
                 </ul>

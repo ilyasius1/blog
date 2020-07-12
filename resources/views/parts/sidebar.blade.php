@@ -3,7 +3,7 @@
         <div class="col-xs-10 col-xs-offset-1">
             @include('widgets.categories')
             @include('widgets.featuredarticle')
-            @include('widgets.articles')
+            @include('widgets.posts')
             @include('widgets.tags')
         </div>
     </div>
