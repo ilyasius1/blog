@@ -19,9 +19,11 @@
                         <label class="col-sm-4 control-label">Адрес e-mail <span class="req-field">*</span></label>
                         <div class="col-sm-8">
                             <input type="email" class="form-control" name="email" placeholder="user@domain.ru" value="{{ old('email') }}">
-                            @if ($errors->has('email'))
+{{--                            @if ($errors->has('email'))--}}
+                            @error('email')
                                 <span class="error-message">{{ $errors->first('email') }}</span>
-                            @endif
+                            @enderror
+{{--                            @endif--}}
                         </div>
                     </div>
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">

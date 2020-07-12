@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
+use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\User;
@@ -13,7 +13,7 @@ class MainController extends Controller
 {
     public function main()
     {
-        $articles = [
+        $posts = [
             [
                 'id' => 1,
                 'title' => 'Number 1',
@@ -96,8 +96,9 @@ class MainController extends Controller
                 'comments' =>[]
             ]
         ];
+        $posts = Post::withCount(['comments', 'tags'])->get();
 
-    return view('pages.main', ['title' => 'Главная', 'articles' => $articles]);
+    return view('pages.main', ['title' => 'Главная', 'posts' => $posts, 'activemenu' => 'main']);
     }
 
     public function about()
@@ -134,60 +135,14 @@ class MainController extends Controller
 
     public function orm()
     {
-     /*   $user = new User();
-        $user->userName = 'user1';
-        $user->email = 'user1@asfa';
-        $user->password = '123123';
-        $user->name = 'user1';
-        $user->phone = '123123123';
-        $user->avatar = 'asfafa';
-        $user->save();
-
-        $article = new Article();
-
-        $article->title = 'title';
-        $article->subtitle = 'subtitle';
-        $article->text = 'text';
-        $article->img = 'img';
-        $article->created_by = '1';
-        $article->modified_by = '1';
-        $article->save();
-
-        $article1 = new Article();
-
-        $article1->title = 'title1';
-        $article1->subtitle = 'subtitle1';
-        $article1->text = 'text1';
-        $article1->img = 'img1';
-        $article1->created_by = '1';
-        $article1->modified_by = '1';
-        $article1->save();
-*/
-
-
-        /*$article = Article::all();
-        dump($article);
-        debug($article);*/
-        /*echo 'where <br/>';
-        $article2 = Article::where('title', '=', 'title1')
-            ->first();
-        dump($article2->title);
-        debug($article);
-        echo 'update </br>';
-        $article2->title = 'title1 updated';
-        $article2->save();
-        dump($article2->title);
-        debug($article);
-*/
-
         $id = 3;
-        $article = Article::getById($id);//Article::find($id);
-//        $tags = Tag::getByArticle($article);
-        foreach ($article->tags as $t){
+        $post = Article::getById($id);//Article::find($id);
+//        $tags = Tag::getByArticle($post);
+        foreach ($post->tags as $t){
             dump($t->title);
         }
-        $tags = $article->tags;
-        $comments = Comment::getByArticle($article);//$article->comments;
+        $tags = $post->tags;
+        $comments = Comment::getByArticle($post);//$post->comments;
         $comment1 = new Comment();
         $comment1->author = '2';
         $comment1->article = '1';
@@ -203,27 +158,8 @@ class MainController extends Controller
             var_dump(dateRu($comment->created_at));
             echo '<br/>';
         }
-//        $tagIDs1->toArray();
-
-        /*foreach ($tagIDs1 as $i =>$t){
-            $tagIDs1[$i] = ($t->tag);
-        }
-        $tags = Tag::find($tagIDs1);*/
-        /*$tags = Tag::addselect(['tag' => DB::table('article_tags_relations')
-            ->select('tag')
-            ->where('article', $article->articleID)
-            ->whereColumn('tagID', 'article_tags_relations.tag')
-        ])->get();*/
-//        $tags = Tag::find(DB::table('article_tags_relations')
-//            ->select('tag')
-//            ->where('article', $article->articleID)
-//            ->get()
-//            ->toArray()
-//        );
-            //->whereColumn('tagID', 'article_tags_relations.tag')
-
-        dump($article, $tags, $comments);
-        debug($article, $tags, $comments);
+        dump($post, $tags, $comments);
+        debug($post, $tags, $comments);
         return 'ok';
     }
 

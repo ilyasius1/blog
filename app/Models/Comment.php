@@ -4,22 +4,29 @@ namespace App\Models;
 
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
-    protected $primaryKey = 'commentID';
+    protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $fillable = ['text', 'author'];
+    use SoftDeletes;
 
     public $timestamps = false;
 
-    public function articles()
+    public function post()
     {
-        return $this->belongsTo('App\Models\Article', 'article');
+        return $this->belongsTo('App\Models\Post', 'post_id');
     }
 
-    public static function getByArticle(Article $article)
+    public function user()
     {
-        return $article->comments;
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
+    public static function getByPost(Post $post)
+    {
+        return $post->comments->orderBy('created_at');
     }
 
     public function createComment(Request $request ){

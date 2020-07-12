@@ -1,7 +1,7 @@
 <?php
 //вместо date() - вывод с русскими месяцами. Если передается параметр $lowercase - месяц пишется с маленькой буквы
  function dateRu($date = NULL, $format = 'd F Y', $lowercase = true){
-     if($date == NULL || $date == 0) {
+     if($date === NULL || $date === 0) {
          $date=time();
      }
      if(!is_int($date)){

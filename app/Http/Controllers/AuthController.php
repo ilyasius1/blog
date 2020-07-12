@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,7 @@ class AuthController extends Controller
 {
     public function register()
     {
-        return view(/*'.pages.register', [*/'layouts.secondary',[
+        return view('layouts.secondary',[
             'page' => 'pages.register',
             'title' => 'Регистрация',
             'content' => '',
@@ -19,7 +20,13 @@ class AuthController extends Controller
         ]);
     }
 
-    public function registerPost(RegisterRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  App\Http\Requests\RegisterRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(RegisterRequest $request)
     {
         /*$this->validate($request, [
             'name' => 'required|min:3|max:20',
@@ -42,15 +49,23 @@ class AuthController extends Controller
          */
 
         $input = $request->all();
-        $id = DB::table('users')->insertGetId([
+        /*$id = DB::table('users')->insertGetId([
             'username' => $input['username'],
             'email' => $input['email'],
             'password' => bcrypt($input['password']),
             'phone' => trim(str_replace(['+', ' ', '(', ')', '-'], '', $input['phone']))
-        ]);
+        ]);*/
         debug($request->all());
 
-        return 'id: ' . $id;
+        $user = new User;
+        $user->email = $input['email'];
+        $user->username = $input['username'];
+        $user->password = $input['password'];
+        $user->save();
+        $profile = $user->profile()->create(['phone' => $input['phone']]);
+        return 'ok';//'id: ' . $id;
+
+
 
     }
 

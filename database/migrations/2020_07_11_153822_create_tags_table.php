@@ -16,8 +16,9 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
-            $table->id('tagID');
-            $table->string('title');
+            $table->id();
+            $table->string('name', 255);
+            $table->timestamps();
         });
     }
 

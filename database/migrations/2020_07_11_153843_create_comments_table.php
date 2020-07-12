@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticleTagsRelationsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,27 @@ class CreateArticleTagsRelationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_tags', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_general_ci';
-//            $table->id('articleTagID');
-            $table->foreignId('article')
-                ->references('articleID')
-                ->on('articles')
+            $table->id();
+            $table->foreignId('user_id')
+//                ->references('id')
+//                ->on('users')
                 ->nullable()
-                ->constrained()
+                ->constrained('users')
+                ->onDelete('set default')
+                ->onUpdate('cascade');
+            $table->foreignId('post_id')
+//                ->references('id')
+//                ->on('posts')
+                ->nullable()
+                ->constrained('posts')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->foreignId('tag')
-                ->references('tagID')
-                ->on('tags')
-                ->nullable()
-                ->constrained()
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+            $table->text('text');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -41,6 +44,6 @@ class CreateArticleTagsRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_tags');
+        Schema::dropIfExists('comments');
     }
 }
