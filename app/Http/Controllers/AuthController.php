@@ -28,42 +28,15 @@ class AuthController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        /*$this->validate($request, [
-            'name' => 'required|min:3|max:20',
-            'email' => 'required|email',//|unique:users',
-            'password' => 'required|min:6|max:255',
-            'password2' => 'required|same:password',
-            'phone' => 'regex:/\d{11}/',//'regex:/\+\d{1}\s{1}\(\d{3}\)\s{1}\d{3}\-\d{2}\-\d{2}/',
-            'is_confirmed' => 'accepted'
-        ]);*/
-        /*
- array:7 [
-  "_token" => "bqsaavCCrNVmENwtFJbvteCv1kqDUr3GOTH56iWi"
-  "email" => "eaer@fasdf"
-  "password" => "123123"
-  "password2" => "123123"
-  "name" => "asdfasdfa"
-  "phone" => "11112223333"
-  "is_confirmed" => "on"
-]
-         */
-
         $input = $request->all();
-        /*$id = DB::table('users')->insertGetId([
-            'username' => $input['username'],
-            'email' => $input['email'],
-            'password' => bcrypt($input['password']),
-            'phone' => trim(str_replace(['+', ' ', '(', ')', '-'], '', $input['phone']))
-        ]);*/
         debug($request->all());
-
         $user = new User;
         $user->email = $input['email'];
         $user->username = $input['username'];
         $user->password = $input['password'];
         $user->save();
         $profile = $user->profile()->create(['phone' => $input['phone']]);
-        return 'ok';//'id: ' . $id;
+        return 'ok';
 
 
 

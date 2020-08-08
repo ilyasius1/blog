@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xs-10  col-xs-offset-1">
                 <h2>Вход в систему</h2>
-                <form class="form-horizontal" method="POST" enctype="application/x-www-form-urlencoded" action="{{ route('register') }}">
+                <form class="form-horizontal" method="POST" enctype="application/x-www-form-urlencoded" action="{{ route('login') }}">
                     {{ csrf_field() }}
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Адрес e-mail</label>

@@ -24,27 +24,27 @@ Route::get('/about/edit', 'MainController@editAboutPost')
     ->name('admin.main.about.editpost');
 
 
-Route::prefix('articles')->group(function(){
-    Route::get('/{id?}', 'ArticleController@showone')
+Route::prefix('post')->group(function(){
+    Route::get('/{id?}', 'PostController@showone')
         ->name('admin.main.showone');
-    Route::get('/edit/{id?}', 'ArticleController@edit')
+    Route::get('/edit/{id?}', 'PostController@edit')
         ->name('admin.main.edit');
-    Route::patch('/edit/{id?}', 'ArticleController@editPost')
+    Route::patch('/edit/{id?}', 'PostController@editPost')
         ->name('admin.main.patch');
-    Route::delete('/delete/{id?}', 'ArticleController@delete')
+    Route::delete('/delete/{id?}', 'PostController@delete')
         ->name('admin.main.delete');
 });
 
 Route::prefix('users')->group(function (){
     Route::get('/', 'UsersController@index')
         ->name('admin.users.index');
-    Route::get('/{id?}', 'UsersController@user')
+    Route::get('/{id}', 'UsersController@user')
         ->name('admin.users.user');
-    Route::get('/edit/{id}', 'UsersController@edit')
+    Route::get('/{id}/edit', 'UsersController@edit')
         ->name('admin.users.edit');
-    Route::patch('/edit/{id}', 'UsersController@editPost')
+    Route::patch('/{id}/edit', 'UsersController@editPost')
         ->name('admin.users.editpost');
-    Route::get('/resetpassword/{id}', 'UsersController@resetPassword')
+    Route::get('/{id}/resetpassword', 'UsersController@resetPassword')
     ->name('admin.users.resetpassword');
 
 });

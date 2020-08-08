@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Blog;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class PostController extends BaseController
 {
@@ -27,7 +29,12 @@ class PostController extends BaseController
      */
     public function create()
     {
-        //
+        $alltags = Tag::all();
+        return view('layouts.secondary',[
+            'page' => 'pages.create',
+            'activemenu' => 'create',
+            'alltags' => $alltags
+        ]);
     }
 
     /**
@@ -38,7 +45,21 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
-        //
+        debug($request);
+        $post = Post::create([
+            'title' => $request->input('post_title'),
+            'fulltext' => $request->input('fulltext'),
+            'slug' => Str::slug($request->input('post_title'), '_'),
+            'announce' => self::makeAnnounce($request->input('fulltext'))
+        ]);
+        $tags = $request->input('checkedTags');
+        $user = User::find(1);
+        $user->posts()->save($post);
+        $post->tags()->sync($tags);
+        if($request->action == 'apply'){
+            return redirect()->route('post.edit', ['post' => $post->slug]);
+        }
+        return redirect()->route('post.show', ['post' => $post->slug]);
     }
 
     /**
@@ -47,9 +68,9 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $post = Post::find($id);
+        $post = Post::where('slug', $slug)->firstOrFail();
         $tags = $post->tags;
         $comments = $post->comments;
         return view('layouts.secondary', [
@@ -65,10 +86,18 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $post = Post::find($id);
-
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $tags = $post->tags;
+        $alltags = Tag::all();
+        return view('layouts.secondary', [
+            'page' => 'pages.edit',
+            'title' => 'Редактирование' . $post->title,
+            'post' => $post,
+            'tags' => $tags,
+            'alltags' => $alltags
+        ]);
     }
 
     /**
@@ -78,9 +107,43 @@ class PostController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $tags = $request->input('checkedTags');
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $post->title = $request->input('post_title');
+        $post->fulltext = $request->input('fulltext');
+        $post->slug = Str::slug($post->title, '_');
+        /*$length = 650;
+        if (mb_strlen($post->fulltext) <= $length) {
+            $length = mb_strlen($post->fulltext);
+        }
+        elseif(mb_strpos($post->fulltext, ' ', $length) && mb_strpos($post->fulltext, ' ', $length) < $length + 100){
+            $length = mb_strpos($post->fulltext, ' ', $length);
+        }
+        $post->announce = mb_substr($post->fulltext, 0, $length) . '...';*/
+        $post->announce = self::makeAnnounce($post->fulltext);
+        $post->save();
+        $post->tags()->sync($tags);
+        if($request->action == 'apply') {
+            return back()->withInput();
+        }
+        return redirect()->route('post.show', [
+            'post' => $post->slug,
+        ]);
+    }
+
+    public function delete($slug)
+    {
+        try {
+            $post = Post::where('slug', $slug)->firstOrFail();
+            $post->delete();
+        } catch (\Exception $exception) {
+            var_dump($exception);
+            return 'Exception';
+        }
+        return redirect()->route('Mainpage');
+
     }
 
     /**
@@ -93,4 +156,16 @@ class PostController extends BaseController
     {
         //
     }
+
+    protected static function makeAnnounce($fulltext, $length = 650, $deviation = 100)
+    {
+        if (mb_strlen($fulltext) <= $length) {
+            $length = mb_strlen($fulltext);
+        }
+        elseif(mb_strpos($fulltext, ' ', $length) && mb_strpos($fulltext, ' ', $length) < $length + $deviation){
+        $length = mb_strpos($fulltext, ' ', $length);
+        }
+        return mb_substr($fulltext, 0, $length) . '...';
+    }
+
 }

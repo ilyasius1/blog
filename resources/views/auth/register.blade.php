@@ -5,13 +5,17 @@
                 <h2>Регистрация</h2>
                 <p>Поля, отмеченные звездочкой, являются <strong>обязательными</strong> для заполнения.</p>
 
-                <form class="form-horizontal" method="POST" enctype="application/x-www-form-urlencoded" action="{{ route('registerPost') }}">
+                <form class="form-horizontal" method="POST" enctype="application/x-www-form-urlencoded" action="{{ route('register') }}">
                     {{ csrf_field() }}
                     @if (count($errors) > 0)
                         <div class="alert alert-danger alert-dismissable" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <strong>Во время заполнения формы возникли ошибки!</strong><br>
                             Пожалуйста, исправьте их для завершения регистрации.
+                            @foreach($errors as $error)
+                                {{ debug($error) }}
+                            @endforeach
+                            {{ debug($errors) }}
                         </div>
                     @endif
 
@@ -39,7 +43,7 @@
                     <div class="form-group{{ $errors->has('password2') ? ' has-error' : ''}}">
                         <label class="col-sm-4 control-label">Подтверждение пароля <span class="req-field">*</span></label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" name="password2" value="{{ old('password2') }}" placeholder="Пароль еще раз">
+                            <input type="password" class="form-control" id="password-confirm" name="password_confirmation" required autocomplete="new-password" value="{{ old('password2') }}" placeholder="Пароль еще раз">
                             @if ($errors->has('password2'))
                                 <span class="error-message">{{ $errors->first('password2') }}</span>
                             @endif

@@ -31,7 +31,7 @@ class CreatePostsTable extends Migration
             $table->text('announce')->nullable();
             $table->text('fulltext')->nullable();
 //            $table->integer('views_count', 255)->nullable()->default(null);
-//            $table->boolean('is_active')->default(TRUE);
+            $table->boolean('is_active')->default(TRUE);
 //            $table->boolean('is_favorite')->default(FALSE);
             $table->timestamp('active_from')->nullable();
             $table->timestamp('active_to')->nullable();

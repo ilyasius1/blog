@@ -600,6 +600,17 @@ pre code {
     border-radius: 0
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0)
+}
+
 .pre-scrollable {
     max-height: 340px;
     overflow-y: scroll
@@ -6333,7 +6344,9 @@ font-family: 'Roboto Condensed', sans-serif;
         margin-bottom:60px
     }
 }
-
+.tags__label{
+    cursor: pointer;
+}
 .tags__link {
     display: inline-block;
     border: 1px solid #51ab6d;
@@ -6342,12 +6355,17 @@ font-family: 'Roboto Condensed', sans-serif;
     padding: 9.5px 20px;
     font-size: 14px;
     font-weight: 700;
-font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     -webkit-transition: all .1s linear;
     transition: all .1s linear
 }
 
-.tags__link:hover {
+.tags__label:hover .tags__link {
+    background-color: #51ab6d;
+    color: #fff
+}
+
+.tags__label input:checked ~ .tags__link {
     background-color: #51ab6d;
     color: #fff
 }

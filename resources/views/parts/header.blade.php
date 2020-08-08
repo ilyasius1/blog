@@ -28,8 +28,8 @@
                             <li><a href="#">Пункт 4</a></li>
                         </ul>
                     </li>
-                    <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
-                        <a href="/elements" class="dropdown-toggle" data-toggle="dropdown">Верстка</a>
+                    <li class="{{ (isset($activemenu) && $activemenu == 'create') ? ' active': '' }}">
+                        <a href="{{ route('post.create') }}" class="dropdown-toggle" data-toggle="dropdown">Создать</a>
                     </li>
                     <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/about" class="dropdown-toggle" data-toggle="dropdown">Обо мне</a>
@@ -37,12 +37,21 @@
                     <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/contact" class="dropdown-toggle" data-toggle="dropdown">Обратная связь</a>
                     </li>
+                    @auth()
+                        <li>
+                            <a href="#">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>
+                        </li>
+                        <li>
+                            <button formaction="{{ route('logout') }}" formmethod="post">Выход</button>
+                        </li>
+                    @elseauth()
                     <li class="{{ (isset($activemenu) && $activemenu == 'register') ? ' active': '' }}">
                         <a href="/register" class="dropdown-toggle" data-toggle="dropdown">Регистрация</a>
                     </li>
                     <li class="{{ (isset($activemenu) && $activemenu == 'login') ? ' active': '' }}">
                         <a href="/login" class="dropdown-toggle" data-toggle="dropdown">Вход</a>
                     </li>
+                    @endauth
                 </ul>
             </div>
         </nav>

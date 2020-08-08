@@ -28,6 +28,7 @@ class CreatePostTagTable extends Migration
                 ->constrained('tags')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
+            $table->unique(['post_id', 'tag_id']);
             $table->timestamps();
         });
     }

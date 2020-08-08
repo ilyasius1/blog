@@ -24,6 +24,11 @@ class Post extends Model
         return $this->belongsTo('App\Models\User', 'user_id');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+
     public function addTag($tagID)
     {
         $this->tags()->detach($tagID);

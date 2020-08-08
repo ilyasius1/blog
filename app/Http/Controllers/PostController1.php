@@ -74,7 +74,12 @@ class PostController1 extends Controller
         $tagID = $request->input('tag');
         $postID = $request->input('post');
         $post = Post::getById($postID);
-        $post->addTag($tagID);
+        //$post->addTag($tagID);
+        try {
+            $post->tags()->attach($tagID);
+        } catch (\Exception $e) {
+            echo 'Олреди экзистс или чота ни так';
+        }
         return redirect()->back();
     }
 

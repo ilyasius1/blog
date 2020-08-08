@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class UsersController extends Controller
 {
     public function index(){
+
         return 'admin users index';
     }
 
@@ -29,5 +30,9 @@ class UsersController extends Controller
 
     public function resetPassword(){
         return 'admin resetPassword';
+    }
+
+    public function active($query){
+        return $query->where('is_active', 1);
     }
 }

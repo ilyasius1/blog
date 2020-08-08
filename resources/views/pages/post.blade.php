@@ -38,6 +38,7 @@
 
                     <div class="post-comments">
                         <a class="btn  btn-primary" href="#comments">Комментарии ({{ count($post->comments) }})</a>
+                        <a class="btn  btn-primary" href="{{ route('post.edit', $post->slug) }}">Редактировать</a>
                     </div>
 
                 </div>
