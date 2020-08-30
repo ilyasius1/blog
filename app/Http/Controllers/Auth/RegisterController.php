@@ -79,7 +79,7 @@ class RegisterController extends Controller
         $user = User::create([
             'username' => $input['username'],
             'email' => $input['email'],
-            'password' => Hash::make($input['password'] . $this->salt),
+            'password' => Hash::make($input['password']/* . $this->salt*/),
         ]);
         $profile = $user->profile()->create(['phone' => $input['phone']]);
         Auth::login($user);

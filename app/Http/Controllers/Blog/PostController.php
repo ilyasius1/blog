@@ -6,8 +6,10 @@ use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostController extends BaseController
@@ -29,6 +31,10 @@ class PostController extends BaseController
      */
     public function create()
     {
+        $this->authorize('post.create');
+        /*if(Gate::denies('create-post')){
+            return 'Access denied';
+        }*/
         $alltags = Tag::all();
         return view('layouts.secondary',[
             'page' => 'pages.create',
@@ -45,7 +51,6 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
-        debug($request);
         $post = Post::create([
             'title' => $request->input('post_title'),
             'fulltext' => $request->input('fulltext'),
@@ -88,6 +93,11 @@ class PostController extends BaseController
      */
     public function edit($slug)
     {
+        $this->authorize('post.edit');
+        /*if(Gate::denies('create-post')){
+            return 'Access denied';
+        }*/
+        $this->middleware('auth');
         $post = Post::where('slug', $slug)->firstOrFail();
         $tags = $post->tags;
         $alltags = Tag::all();
@@ -135,6 +145,10 @@ class PostController extends BaseController
 
     public function delete($slug)
     {
+        /*if(Gate::denies('delete-post')) {
+            return 'Access denied';
+        }*/
+        $this->authorize('post.delete');
         try {
             $post = Post::where('slug', $slug)->firstOrFail();
             $post->delete();
@@ -143,7 +157,6 @@ class PostController extends BaseController
             return 'Exception';
         }
         return redirect()->route('Mainpage');
-
     }
 
     /**

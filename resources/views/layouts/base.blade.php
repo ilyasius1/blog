@@ -30,5 +30,12 @@
     <script src="assets/js/app.js? {{ sha1(microtime(true)) }}"></script>
 @show-->
 <script src="../js/main.js"></script>
+    <script>
+        const link=document.querySelector(".profile-link");
+        const div=document.querySelector(".dropdown-menu.dropdown-menu-right");
+        link.addEventListener("click", function () {
+           div.classList.toggle("show");
+        });
+    </script>
 </body>
 </html>

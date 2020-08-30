@@ -38,20 +38,41 @@
                         <a href="/contact" class="dropdown-toggle" data-toggle="dropdown">Обратная связь</a>
                     </li>
                     @auth()
-                        <li>
-                            <a href="#">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle profile-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ \Illuminate\Support\Facades\Auth::user()->username }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
                         </li>
-                        <li>
-                            <button formaction="{{ route('logout') }}" formmethod="post">Выход</button>
-                        </li>
-                    @elseauth()
+
+
+{{--                        <li>--}}
+{{--                            <a href="#">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="/logout" class="dropdown-toggle" data-toggle="dropdown">Выход</a>--}}
+{{--                            <button lass="dropdown-toggle" formaction="{{ route('logout') }}" formmethod="post">Выход</button>--}}
+{{--                        </li>--}}
+                    @endauth
+                    @guest()
                     <li class="{{ (isset($activemenu) && $activemenu == 'register') ? ' active': '' }}">
                         <a href="/register" class="dropdown-toggle" data-toggle="dropdown">Регистрация</a>
                     </li>
                     <li class="{{ (isset($activemenu) && $activemenu == 'login') ? ' active': '' }}">
                         <a href="/login" class="dropdown-toggle" data-toggle="dropdown">Вход</a>
                     </li>
-                    @endauth
+                    @endguest
                 </ul>
             </div>
         </nav>
