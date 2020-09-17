@@ -40,18 +40,67 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**Связь с моделью профиля 1:1
+    */
     public function profile()
     {
         return $this->hasOne('App\Models\Profile', 'user_id');
     }
 
+    /**Связь с моделью постов 1:M
+    */
     public function posts()
     {
         return $this->hasMany('App\Models\Post', 'user_id');
+    }
+
+    /**M:M*/
+    public function roles(){
+        return $this->belongsToMany('App\Models\Role','user_role', 'user_id', 'role_id');
+    }
+
+    /**M:M:M*/
+    public function permissions()
+    {
+        return $this->hasManyThrough('App\Models\Permission', 'App\Models\Role', 'role_id', 'permission_id');
+    }
+
+    /**Есть ли у пользователя указанная роль
+     * @var Role $role
+    */
+    public function hasRole(Role $role)
+    {
+        return $this->roles->contains($role);
+    }
+
+    /**
+     * Есть ли у пользователя указанная привилегия
+     * @var Permission
+     * */
+    public function hasPermission(Permission $permission)
+    {
+        foreach ($this->roles as $role) {
+            if($role->permissions->contains($permission)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(Role::findOrFail(1));
     }
 
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
     }
+
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('is_admin', 1);
+    }
+
 }

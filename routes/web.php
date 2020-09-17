@@ -35,7 +35,7 @@ Route::post('/login1', 'AuthController@loginPost')
 Route::get('/resetpassword', 'AuthController@resetPassword')
     ->name('password.reset');
 */
-Route::get('/orm', 'MainController@orm');
+Route::get('/test', 'MainController@test');
 
 Route::get('/createEntity', 'MainController@createEntity');
 
@@ -44,7 +44,16 @@ Route::group(['namespace' => 'Blog'], function()
     Route::resource('post', 'PostController');
     Route::post('/post/{post}', 'PostController@update')->name('post.update');
     Route::delete('/post/{post}', 'PostController@delete')->name('post.delete');
+
 });//->middleware('auth');
+Route::prefix('profile')->group(function(){
+    Route::get('/','Cabinet\ProfileController@show')
+        ->name('cabinet.profile.show');
+    Route::get('/edit','Cabinet\ProfileController@edit')
+        ->name('cabinet.profile.edit');
+    Route::put('/edit','Cabinet\ProfileController@show')
+        ->name('cabinet.profile.update');
+});
 
 Auth::routes();
 

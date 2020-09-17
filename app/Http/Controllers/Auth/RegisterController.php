@@ -74,17 +74,13 @@ class RegisterController extends Controller
      */
     protected function create(array $input)
     {
-//        $input = $request->all();
-        debug($input);
         $user = User::create([
             'username' => $input['username'],
             'email' => $input['email'],
-            'password' => Hash::make($input['password']/* . $this->salt*/),
+            'password' => Hash::make($input['password']),
         ]);
-        $profile = $user->profile()->create(['phone' => $input['phone']]);
-        Auth::login($user);
-        return 'ok';
-        return redirect()->route('Mainpage');
+        $user->profile()->create(['phone' => $input['phone']]);
+        return $user;
     }
 
     /**

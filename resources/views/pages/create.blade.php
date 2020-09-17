@@ -22,6 +22,14 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-xs-12">
+                            <label for="post_category">Категория</label >
+                            <select name="post_category" id=post_category">
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
                             <label for="post_title">Название поста</label >
                             <input type="text" placeholder="Название" name="post_title" id="post_title" value="{{ old('post_title') }}">
                         </div>

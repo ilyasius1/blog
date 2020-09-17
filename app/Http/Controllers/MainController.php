@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\Tag;
 use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
@@ -18,7 +22,6 @@ class MainController extends Controller
             ->latest()
             ->get();
         $user = Auth::user();
-        debug($user);
 
     return view('pages.main', ['title' => 'Главная', 'posts' => $posts, 'activemenu' => 'main']);
     }
@@ -45,7 +48,7 @@ class MainController extends Controller
         $u = DB::table('users')
             ->where('userid','=', '1')
             ->orderByDesc('userid')
-            ->first(['userID', 'userName', 'email']);//get()[0];
+            ->first(['userID', 'userName', 'email']);
         echo 'User ID: ' . $u->userID . '<br>';
         echo 'Username: ' . $u->userName . '<br>';
         echo 'E-mail: ' . $u->email . '<br>';
@@ -55,42 +58,45 @@ class MainController extends Controller
         return 'DB';
     }
 
-    public function orm()
+    public function test()
     {
-        $id = 3;
-        $post = Article::getById($id);//Article::find($id);
-//        $tags = Tag::getByArticle($post);
-        foreach ($post->tags as $t){
-            dump($t->title);
+        $user = Auth::user();
+//        echo Str::slug('Привилегия2', '_') . '<br/>';
+$user = \App\Models\User::findOrFail(3);
+        try {
+            $priv = Role::findOrFail(2);
+        }catch (\Exception $e){
+            if($e instanceof ModelNotFoundException){
+                return response()->view('errors.default', [
+                    'errorCode' => 404,
+                    'errorMessage' => 'Роль не найдена'
+                ], 404);
+            }
         }
-        $tags = $post->tags;
-        $comments = Comment::getByArticle($post);//$post->comments;
-        $comment1 = new Comment();
-        $comment1->author = '2';
-        $comment1->article = '1';
-        $comment1->text = 'cmmment to 1 from 2';
-        $comment1->save();
-        foreach ($comments as $comment){
-            echo 'Comment ID#' . $comment->commentID . ':</br>';
-            echo 'autorID:</br>';
-            echo $comment->author;
-            echo '</br>text:</br>';
-            echo $comment->text;
-            echo '</br>date:</br>';
-            var_dump(dateRu($comment->created_at));
-            echo '<br/>';
+        try {
+            $priv = Permission::findOrFail(4);
+        }catch (\Exception $e){
+            if($e instanceof ModelNotFoundException){
+                return response()->view('errors.default', [
+                    'errorCode' => 404,
+                    'errorMessage' => 'Привилегия не найдена'
+                ], 404);
+            }
         }
-        dump($post, $tags, $comments);
-        debug($post, $tags, $comments);
-        return 'ok';
+//        dump($role->privileges->contains($priv));
+//        $roles =$user->roles;
+//        dump($roles);
+        dump($user->hasPrivilege($priv));
+//        dump($user->roles->privileges->contains($priv));
+//        dump($user->hasRole($role));
+//        dump($user,$user->roles, $role);
+        return 'MainController@test';
     }
 
     public function createEntity()
     {
-        $tag = new Tag();
-        $tag->title = 'tag 8';
-        //$tag->save();
-        return 'created id#' . $tag->tagId;
+
+        return 'created id#';
     }
 
 

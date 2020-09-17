@@ -24,12 +24,17 @@ class CreatePostsTable extends Migration
                 ->constrained('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->string('image', 255)->nullable();
             $table->string('title', 255);
             $table->string('slug', 255);
-            $table->string('tagline', 255)->nullable();
-            $table->text('announce')->nullable();
             $table->text('fulltext')->nullable();
+            $table->text('announce')->nullable();
+            $table->string('tagline', 255)->nullable();
+            $table->string('image', 255)->nullable();
+            $table->foreignId('category_id')
+                ->nullable()
+                ->constrained('categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 //            $table->integer('views_count', 255)->nullable()->default(null);
             $table->boolean('is_active')->default(TRUE);
 //            $table->boolean('is_favorite')->default(FALSE);

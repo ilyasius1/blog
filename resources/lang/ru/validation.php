@@ -133,6 +133,10 @@ return [
         'is_confirmed' => [
             'accepted' => 'Вы должны согласиться с условиями'
         ],
+        'permission_name' => [
+            'required' => 'Название необходимо',
+            'unique' => 'Такая привилегия уже существует!'
+        ],
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -150,12 +154,14 @@ return [
     */
 
     'attributes' => [
-        'name' => 'Имя или никнейм',
+        'fullname' => 'Имя или никнейм',
         'email' => 'Адрес e-mail',
         'password' => 'Пароль',
         'password2' => 'Подтверждение пароля',
         'phone' => 'Мобильный телефон',
-        'username' => 'Имя пользователя'
+        'username' => 'Имя пользователя',
+        'permission_name' => 'Название привилегии',
+        'role' => 'Роль'
     ],
 
 ];

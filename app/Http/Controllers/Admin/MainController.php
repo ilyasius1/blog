@@ -9,7 +9,10 @@ class MainController extends Controller
 {
     public function index()
     {
-        return 'admin';//view('admin.pages.main',['title' => 'Главная админская хрень']);
+        return view('admin.pages.main',[
+            'title' => 'Главная админская хрень',
+            'activemenu' => 'admin'
+        ]);
     }
 
 

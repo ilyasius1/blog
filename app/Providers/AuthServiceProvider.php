@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\Post' => 'App\Policies\PostPolicy',
     ];
 
     /**
@@ -25,17 +27,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('post.create', function ($user){
-            return ($user->can_create == 1 || $user->is_admin);
-        });
-        Gate::define('post.edit', function ($user, $post){
-            return ($user->id == $post->user->id || $user->can_edit || $user->is_admin);
-        });
-
-        Gate::define('post.delete', function ($user, $post){
-            return ($user->id == $post->user->id || $user->can_delete || $user->is_admin);
+        /**Является ли пользователь админом*/
+        Gate::define('admin', function ($user){
+            return $user->isAdmin()
+                ? Response::allow()
+                : Response::deny('Ты не пройдешь!');
         });
 
-        //
+
     }
 }

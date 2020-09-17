@@ -38,13 +38,37 @@ Route::prefix('post')->group(function(){
 Route::prefix('users')->group(function (){
     Route::get('/', 'UsersController@index')
         ->name('admin.users.index');
-    Route::get('/{id}', 'UsersController@user')
-        ->name('admin.users.user');
-    Route::get('/{id}/edit', 'UsersController@edit')
+    Route::get('/{user}', 'UsersController@show')
+        ->name('admin.users.show');
+    Route::get('/{user}/edit', 'UsersController@edit')
         ->name('admin.users.edit');
-    Route::patch('/{id}/edit', 'UsersController@editPost')
-        ->name('admin.users.editpost');
+    Route::put('/{user}', 'UsersController@update')
+        ->name('admin.users.update');
+    Route::delete('/{user}', 'UsersController@delete')
+        ->name('admin.users.delete');
     Route::get('/{id}/resetpassword', 'UsersController@resetPassword')
     ->name('admin.users.resetpassword');
 
 });
+
+
+Route::resource('category', 'CategoryController');
+Route::delete('/category/{category}', 'CategoryController@delete')->name('category.delete');
+    /*Route::get('/', 'CategoryController@index')
+        ->name('admin.category.index');
+    Route::get('/{category}', 'CategoryController@show')
+        ->name('admin.category.show');
+    Route::get('/{category}/edit', 'CategoryController@edit')
+        ->name('admin.category.edit');
+    Route::post('/{category}/update', 'CategoryController@update')
+        ->name('admin.category.update');
+    Route::get('/{category}/update', 'CategoryController@create')
+        ->name('admin.category.create');
+    Route::get('/create', 'CategoryController@create')
+        ->name('admin.category.create');*/
+Route::resource('role', 'RoleController');
+Route::delete('/role/{role}', 'RoleController@delete')->name('role.delete');
+
+Route::resource('permission', 'PermissionController');
+Route::delete('/permission/{permission}', 'PermissionController@delete')->name('permission.delete');
+

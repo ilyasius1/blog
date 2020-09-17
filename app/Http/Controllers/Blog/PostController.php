@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blog;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Tag;
@@ -21,7 +22,12 @@ class PostController extends BaseController
      */
     public function index()
     {
-        //
+        $posts = Post::withCount(['comments', 'tags'])
+            ->latest()
+            ->get();
+        $user = Auth::user();
+
+        return view('pages.main', ['title' => 'Главная', 'posts' => $posts, 'activemenu' => 'main']);
     }
 
     /**
@@ -31,15 +37,17 @@ class PostController extends BaseController
      */
     public function create()
     {
-        $this->authorize('post.create');
+        $this->authorize('create', Post::class);
         /*if(Gate::denies('create-post')){
             return 'Access denied';
         }*/
         $alltags = Tag::all();
+        $categories = Category::all();
         return view('layouts.secondary',[
             'page' => 'pages.create',
             'activemenu' => 'create',
-            'alltags' => $alltags
+            'alltags' => $alltags,
+            'categories' => $categories
         ]);
     }
 
@@ -55,11 +63,11 @@ class PostController extends BaseController
             'title' => $request->input('post_title'),
             'fulltext' => $request->input('fulltext'),
             'slug' => Str::slug($request->input('post_title'), '_'),
-            'announce' => self::makeAnnounce($request->input('fulltext'))
+            'announce' => self::makeAnnounce($request->input('fulltext')),
+            'user_id' => Auth::id(),
+            'category_id' => $request->input('post_category')
         ]);
         $tags = $request->input('checkedTags');
-        $user = User::find(1);
-        $user->posts()->save($post);
         $post->tags()->sync($tags);
         if($request->action == 'apply'){
             return redirect()->route('post.edit', ['post' => $post->slug]);
@@ -70,7 +78,7 @@ class PostController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string $slug
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
@@ -88,7 +96,7 @@ class PostController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string $slug
      * @return \Illuminate\Http\Response
      */
     public function edit($slug)

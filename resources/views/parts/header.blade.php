@@ -28,9 +28,11 @@
                             <li><a href="#">Пункт 4</a></li>
                         </ul>
                     </li>
+                    @can('create', App\Models\Post::class)
                     <li class="{{ (isset($activemenu) && $activemenu == 'create') ? ' active': '' }}">
                         <a href="{{ route('post.create') }}" class="dropdown-toggle" data-toggle="dropdown">Создать</a>
                     </li>
+                    @endcan
                     <li class="{{ (isset($activemenu) && $activemenu == 'test') ? ' active': '' }}">
                         <a href="/about" class="dropdown-toggle" data-toggle="dropdown">Обо мне</a>
                     </li>
@@ -38,32 +40,32 @@
                         <a href="/contact" class="dropdown-toggle" data-toggle="dropdown">Обратная связь</a>
                     </li>
                     @auth()
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle profile-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ \Illuminate\Support\Facades\Auth::user()->username }} <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
+                        @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
+                            <li class="dropdown {{ (isset($activemenu) && $activemenu == 'admin') ? ' active': '' }}">
+                                <a href="{{ route('admin.main.index') }}" class="dropdown-toggle" data-toggle="dropdown">Админка</a>
+                                <ul class="navigation__dropdown">
+                                    <li><a href="{{ route('admin.users.index') }}">Пользователи</a></li>
+                                    <li><a href="{{ route('role.index') }}">Роли</a></li>
+                                    <li><a href="{{ route('permission.index') }}">Привилегии</a></li>
+                                    <li><a href="{{ route('category.index') }}">Категории статей</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                        <li class="dropdown {{ (isset($activemenu) && $activemenu == 'profile') ? ' active': '' }}">
+                            <a href="{{ route('cabinet.profile.show') }}" class="dropdown-toggle" data-toggle="dropdown">{{ \Illuminate\Support\Facades\Auth::user()->username }}<span class="caret"></span></a>
+                            <ul class="navigation__dropdown">
+                                <li><a href="{{ route('cabinet.profile.show') }}">Профиль</a></li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        {{ 'Выход' }}
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-
-
-{{--                        <li>--}}
-{{--                            <a href="#">{{ \Illuminate\Support\Facades\Auth::user()->username }}</a>--}}
-{{--                        </li>--}}
-{{--                        <li>--}}
-{{--                            <a href="/logout" class="dropdown-toggle" data-toggle="dropdown">Выход</a>--}}
-{{--                            <button lass="dropdown-toggle" formaction="{{ route('logout') }}" formmethod="post">Выход</button>--}}
-{{--                        </li>--}}
                     @endauth
                     @guest()
                     <li class="{{ (isset($activemenu) && $activemenu == 'register') ? ' active': '' }}">

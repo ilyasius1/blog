@@ -18,7 +18,10 @@ class CreateCategoryTable extends Migration
             $table->collation = 'utf8mb4_general_ci';
             $table->id();
             $table->string('name', 255);
+            $table->string('slug', 255);
+            $table->boolean('is_active')->default(TRUE);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
