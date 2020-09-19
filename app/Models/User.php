@@ -75,10 +75,13 @@ class User extends Authenticatable
 
     /**
      * Есть ли у пользователя указанная привилегия
-     * @var Permission
+     * @var Permission or string $permission
      * */
-    public function hasPermission(Permission $permission)
+    public function hasPermission($permission)
     {
+        if(!($permission instanceof Permission)){
+            $permission = Permission::where('slug', $permission)->firstOrFail();
+        }
         foreach ($this->roles as $role) {
             if($role->permissions->contains($permission)){
                 return true;
@@ -91,16 +94,17 @@ class User extends Authenticatable
     {
         return $this->hasRole(Role::findOrFail(1));
     }
+    /**
+     * Является ли пользователь автором сущности
+     */
+    public function isAuthorOf($entity){
+        return $this->id == $entity->user_id;
+    }
 
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
     }
 
-
-    public function scopeAdmin($query)
-    {
-        return $query->where('is_admin', 1);
-    }
 
 }

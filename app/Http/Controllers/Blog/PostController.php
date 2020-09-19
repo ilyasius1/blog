@@ -15,6 +15,11 @@ use Illuminate\Support\Str;
 
 class PostController extends BaseController
 {
+    public function __construct()
+    {
+//        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +27,7 @@ class PostController extends BaseController
      */
     public function index()
     {
+        $this->middleware('auth');
         $posts = Post::withCount(['comments', 'tags'])
             ->latest()
             ->get();
@@ -37,7 +43,9 @@ class PostController extends BaseController
      */
     public function create()
     {
-        $this->authorize('create', Post::class);
+        debug(Auth::check());
+        //        $this->middleware('auth');
+//        $this->authorize('create', Post::class);
         /*if(Gate::denies('create-post')){
             return 'Access denied';
         }*/
@@ -59,6 +67,8 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
+        $this->middleware('guest');
+        $this->authorize('create', Post::class);
         $post = Post::create([
             'title' => $request->input('post_title'),
             'fulltext' => $request->input('fulltext'),
@@ -83,7 +93,9 @@ class PostController extends BaseController
      */
     public function show($slug)
     {
+        $this->middleware('auth');
         $post = Post::where('slug', $slug)->firstOrFail();
+//        $this->authorize('view', $post);
         $tags = $post->tags;
         $comments = $post->comments;
         return view('layouts.secondary', [
@@ -101,12 +113,12 @@ class PostController extends BaseController
      */
     public function edit($slug)
     {
-        $this->authorize('post.edit');
         /*if(Gate::denies('create-post')){
             return 'Access denied';
         }*/
         $this->middleware('auth');
         $post = Post::where('slug', $slug)->firstOrFail();
+        $this->authorize('update', $post);
         $tags = $post->tags;
         $alltags = Tag::all();
         return view('layouts.secondary', [
@@ -127,6 +139,8 @@ class PostController extends BaseController
      */
     public function update(Request $request, $slug)
     {
+        $this->middleware('auth');
+        $this->authorize('update', Post::class);
         $tags = $request->input('checkedTags');
         $post = Post::where('slug', $slug)->firstOrFail();
         $post->title = $request->input('post_title');
@@ -156,14 +170,10 @@ class PostController extends BaseController
         /*if(Gate::denies('delete-post')) {
             return 'Access denied';
         }*/
-        $this->authorize('post.delete');
-        try {
-            $post = Post::where('slug', $slug)->firstOrFail();
-            $post->delete();
-        } catch (\Exception $exception) {
-            var_dump($exception);
-            return 'Exception';
-        }
+        $this->middleware('auth');
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $this->authorize('delete', $post);
+        $post->delete();
         return redirect()->route('Mainpage');
     }
 

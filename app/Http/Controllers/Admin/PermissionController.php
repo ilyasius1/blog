@@ -64,7 +64,6 @@ class PermissionController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        return 'success';
         Permission::create([
             'name' => $request->input('name'),
             'slug' => Str::slug($request->input('name'), '_')
